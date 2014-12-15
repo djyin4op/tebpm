@@ -1,7 +1,19 @@
-Template Engine Benchmark POWED BY MAVEN
+Template Engine Benchmark Powered By Maven
 ===
++ 原工程
 <pre>
-原工程 http://git.oschina.net/yinjun622/teb
+http://git.oschina.net/yinjun622/teb
+</pre>
+
++ 修改地方：
+<pre>
+  1. 使用Maven接管工程构建，管理
+  2. 使用Common-Exec启动待测JVM，而不是直接使用创建批处理文件的方式， 适应linux系统
+  3. 删除了Wetter相关的部分， 和jop部分， 这些牵扯到原作者自己写的模版框架， 但是没有开源出来， 找不到源代码
+  4. 升级了部分模版的版本
+  5. 加入了Thymeleaf
+  6. 测试加入了两种模式, 一种是启动独立的JVM, 另一种是直接通过函数调用的方式, 方便开发调试.
+  7. 修正了一些问题, 比如beetl读取classpath的资源出错的问题...
 </pre>
 
 使用
@@ -104,13 +116,3 @@ Template Engine Benchmark 依据MIT许可证发布。
 使用结果请包含TEB版权信息, 详细请看捆绑的LICENSE文件。
 </pre>
 
-增强
-===
-修改地方：
-  1. 使用Maven接管工程构建，管理
-  2. 使用Common-Exec启动待测JVM，而不是直接使用创建批处理文件的方式， 适应linux系统
-  3. 删除了Wetter相关的部分， 和jop部分， 这些牵扯到原作者自己写的模版框架， 但是没有开源出来， 找不到源代码
-  4. 升级了部分模版的版本
-  5. 加入了Thymeleaf
-  6. 测试加入了两种模式, 一种是启动独立的JVM, 另一种是直接通过函数调用的方式, 方便开发调试.
-  7. 修正了一些问题, 比如beetl读取classpath的资源出错的问题...

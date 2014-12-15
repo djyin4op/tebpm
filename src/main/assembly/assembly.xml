@@ -24,7 +24,7 @@
             </includes>
         </fileSet>
 
-        <!-- templates -->
+        <!-- copy templates to ./ for hotswap test-->
         <fileSet>
             <directory>src/main/resources</directory>
             <outputDirectory>/</outputDirectory>
