@@ -6,7 +6,7 @@ http://git.oschina.net/yinjun622/teb
 </pre>
 
 + 修改地方：
-<pre>
+<div style="word-break:break-all;">
   使用Maven接管工程构建，管理
   使用commons-exec启动待测JVM，而不是直接使用创建批处理文件的方式， 适应linux系统
   删除了Wetter相关的部分， 和jop部分， 这些牵扯到原作者自己写的模版框架， 但是没有开源出来， 找不到源代码
@@ -14,7 +14,7 @@ http://git.oschina.net/yinjun622/teb
   加入了Thymeleaf的测试, 性能确实有问题.
   加入了DEBUG运行模式, DEBUG模式是直接通过函数调用的方式, 读取classpath中的模版, 方便开发调试; 非DEBUG模式是启动独立的JVM,读取当前目录下的模版文件.
   修正了一些蛋疼问题, 比如beetl读取classpath的资源出错的问题...
-</pre>
+</div>
 
 + 吐槽的地方：
 <pre>
@@ -33,7 +33,7 @@ http://git.oschina.net/yinjun622/teb
 设置JAVA_HOME
 </pre>
 + teb.properties
-<pre>
+<div style="word-break:break-all;">
 thread    : 并发线程数, 最小设置1
 record    : 渲染页面的模型记录数, 最小设置1
 period    : 内存采样周期, 运行多少次采样一次, 内存取新生代之外的内存(新生代内存会被很快回收)
@@ -47,7 +47,7 @@ engine    : 引擎测试别名配置, 支持多个配置, 支持多个测试结�
 xxx.name  : 引擎测试别名对应的引擎名称及版本号, xxx=jop/jsp/wet等engine中自定义的别名
 xxx.site  : 引擎测试别名对应的引擎站点, xxx=jop/jsp/wet等engine中自定义的别名
 xxx.test  : 引擎测试别名对应的引擎测试实现, xxx=jop/jsp/wet等engine中自定义的别名
-</pre>
+</div>
 
 ###3.运行
 + 开发环境 下执行
