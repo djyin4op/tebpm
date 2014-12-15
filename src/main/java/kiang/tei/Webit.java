@@ -31,6 +31,12 @@ public final class Webit implements TebEngine {
         } else {
             ps.put(CFG.TEXT_FACTORY, CFG.CHAR_ARRAY_TEXT_FACTORY);
         }
+        final boolean debug = Boolean.parseBoolean(properties.getProperty("debug"));
+        if (debug) {
+            ps.put(CFG.LOADER, "webit.script.loaders.impl.ClasspathLoader");
+        } else {
+            ps.put(CFG.LOADER, "webit.script.loaders.impl.FileLoader");
+        }
         engine = Engine.create("", ps);
         return this;
     }

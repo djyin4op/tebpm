@@ -15,12 +15,24 @@ import java.util.*;
  */
 public class Benchmark {
     public static void main(String[] args) throws Exception {
-        boolean isolation = true;
-        if (args != null && args.length > 0) {
-            isolation = Boolean.valueOf(args[0]);
-        }
+
         String date = new SimpleDateFormat("yyy-MM-dd hh:mm:ss").format(new Date());
         Properties properties = TebUtilities.getProperties();
+
+        // fixed 是否使用独立的JVM测试. 默认开启, Debug模式为关闭.
+        boolean isolation = true;
+        // fixed 是否使用classpath中的模版资源. 默认开启
+        boolean debug = true;
+        if (args != null && args.length > 0) {
+            debug = Boolean.valueOf(args[0]);
+        } else if (properties.get("debug") != null) {
+            debug = Boolean.valueOf(properties.getProperty("debug", "false"));
+        }
+        if (debug) {
+            isolation = false;
+        }
+        properties.setProperty("debug", String.valueOf(debug));
+
         boolean[] binaries;
         String stream = properties.getProperty("stream");
         if ("byte".equals(stream)) {
@@ -43,7 +55,7 @@ public class Benchmark {
                 for (int j = 0, s = binaries.length; j < s; j++) {
                     for (int k = 0, t = engines.length; k < t; k++) {
                         name = properties.getProperty(engines[k] + ".name", "").trim();
-                        System.out.println("Test [" + engines[k] + "=" + name + "]@[" + targets[i] + "]@[" + (binaries[j] ? "byte" : "char") + " stream]...");
+                        System.out.println("Test [" + engines[k] + "=" + name + "]@[" + targets[i] + "]@[" + (binaries[j] ? "byte" : "char") + "]@[debug:" + debug + "]...");
                         rst = new File(locate, engines[k] + ".txt");
                         rst.delete();
                         // change to common-exec
@@ -137,6 +149,7 @@ public class Benchmark {
         environments.put("target", target);
         environments.put("tester", engine);
         environments.put("simple", properties.getProperty(engine + ".test"));
+        environments.put("debug", properties.getProperty("debug"));
 
         // create the executor and consider the exitValue '1' as success
         final Executor executor = new DefaultExecutor();
@@ -176,7 +189,8 @@ public class Benchmark {
                 properties.getProperty("source", "UTF-8"),
                 target,
                 engine,
-                properties.getProperty(engine + ".test")
+                properties.getProperty(engine + ".test"),
+                properties.getProperty("debug", "false")
         };
         try {
             Performer.test(args);

@@ -95,7 +95,8 @@ public final class Performer implements Runnable {
                 System.getenv("source"),
                 System.getenv("target"),
                 System.getenv("tester"),
-                System.getenv("simple")
+                System.getenv("simple"),
+                System.getenv("debug")
         });
         System.out.println();
     }
@@ -112,6 +113,7 @@ public final class Performer implements Runnable {
         String target = args[8];
         String tester = args[9];
         String simple = args[10];
+        boolean debug = Boolean.parseBoolean(args[11]);
 
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         TebEngine engine = (TebEngine) classLoader.loadClass(simple).newInstance();
@@ -120,6 +122,7 @@ public final class Performer implements Runnable {
         properties.setProperty("source", source);
         properties.setProperty("target", target);
         properties.setProperty("binary", String.valueOf(binary));
+        properties.setProperty("debug", String.valueOf(debug));
         engine.init(properties);
 
         Map data = new HashMap();

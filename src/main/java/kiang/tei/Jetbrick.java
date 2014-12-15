@@ -6,6 +6,7 @@ import kiang.teb.Performer;
 import kiang.teb.TebEngine;
 import kiang.teb.TebModel;
 
+import java.io.File;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.util.HashMap;
@@ -26,6 +27,12 @@ public final class Jetbrick implements TebEngine {
         final Properties ps = new Properties();
         ps.setProperty(JetConfig.INPUT_ENCODING, properties.getProperty("source", "UTF-8"));
         ps.setProperty(JetConfig.OUTPUT_ENCODING, properties.getProperty("target", "UTF-8"));
+        boolean debug = Boolean.valueOf(properties.getProperty("debug"));
+        if (debug) {
+            ps.setProperty(JetConfig.TEMPLATE_LOADERS, "jetbrick.template.loader.ClasspathResourceLoader");
+        } else {
+            ps.setProperty(JetConfig.TEMPLATE_LOADERS, "jetbrick.template.loader.FileSystemResourceLoader");
+        }
         engine = JetEngine.create(ps);
         return this;
     }

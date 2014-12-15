@@ -4,6 +4,7 @@ import kiang.teb.TebEngine;
 import kiang.teb.TebModel;
 import org.rythmengine.RythmEngine;
 
+import java.io.File;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.util.HashMap;
@@ -25,7 +26,13 @@ public final class Rythm implements TebEngine {
         ps.put("log.enabled", false);
         ps.put("feature.smart_escape.enabled", false);
         ps.put("feature.transform.enabled", false);
-        ps.put("home.template", Rythm.class.getResource("/kiang/tpl").toURI().toURL().getFile());
+        boolean debug = Boolean.valueOf(properties.getProperty("debug"));
+        if (debug) {
+            ps.put("home.template", Rythm.class.getResource("/kiang/tpl").toURI().toURL().getFile());
+        } else {
+            ps.put("home.template", new File("kiang/tpl"));
+        }
+
         //ps.put("codegen.dynamic_exp.enabled", true);
         //ps.put("built_in.code_type", "false");
         //ps.put("built_in.transformer", "false");

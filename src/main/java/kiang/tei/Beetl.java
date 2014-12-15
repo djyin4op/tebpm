@@ -4,8 +4,8 @@ import kiang.teb.TebEngine;
 import kiang.teb.TebModel;
 import org.beetl.core.Configuration;
 import org.beetl.core.GroupTemplate;
+import org.beetl.core.ResourceLoader;
 import org.beetl.core.Template;
-import org.beetl.core.resource.ClasspathResourceLoader;
 import org.beetl.core.resource.FileResourceLoader;
 
 import java.io.OutputStream;
@@ -23,11 +23,19 @@ public final class Beetl implements TebEngine {
 
     @Override
     public final TebEngine init(Properties properties) throws Exception {
-        BeetlFixedClassResourceLoader loader = new BeetlFixedClassResourceLoader("/kiang/tpl/");
+        ResourceLoader loader;
+
+        boolean debug = Boolean.valueOf(properties.getProperty("debug"));
+        if (debug) {
+            loader = new BeetlFixedClassResourceLoader("/kiang/tpl/");
+        } else {
+            loader = new FileResourceLoader("kiang/tpl/");
+        }
+
         Configuration cfg = Configuration.defaultConfiguration();
         cfg.setCharset(properties.getProperty("source", "UTF-8"));
         cfg.setDirectByteOutput(Boolean.parseBoolean(properties.getProperty("binary", "true")));
-        Map<String,String> resources = cfg.getResourceMap();
+        Map<String, String> resources = cfg.getResourceMap();
         resources.put("autoCheck", "false");
         engine = new GroupTemplate(loader, cfg);
         return this;
@@ -57,7 +65,7 @@ public final class Beetl implements TebEngine {
     }
 
     public static void main(String args[]) throws Exception {
-        String source="UTF-8", target = "UTF-8";
+        String source = "UTF-8", target = "UTF-8";
         OutputStream output = System.out;
         Map data = new HashMap();
         data.put("target", target);

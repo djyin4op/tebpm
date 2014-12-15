@@ -2,9 +2,7 @@ package kiang.tei;
 
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.Configuration;
-import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.TemplateModel;
-import kiang.teb.Performer;
 import kiang.teb.TebEngine;
 import kiang.teb.TebModel;
 
@@ -28,9 +26,17 @@ public final class FreeMarker implements TebEngine {
 
     @Override
     public TebEngine init(Properties properties) throws Exception {
+
         engine = new Configuration();
         engine.setDefaultEncoding(properties.getProperty("target", "UTF-8"));
-        engine.setDirectoryForTemplateLoading(new File(FreeMarker.class.getResource("/kiang/tpl").getPath()));
+
+        boolean debug = Boolean.valueOf(properties.getProperty("debug"));
+        if (debug) {
+            engine.setClassForTemplateLoading(FreeMarker.class, "/kiang/tpl");
+            //engine.setDirectoryForTemplateLoading(new File(FreeMarker.class.getResource("/kiang/tpl").getPath()));
+        } else {
+            engine.setDirectoryForTemplateLoading(new File("kiang/tpl"));
+        }
         engine.setObjectWrapper(new BeansWrapper());
         templateModel = BeansWrapper.getDefaultInstance().getStaticModels().get(String.class.getName());
         return this;
@@ -56,7 +62,7 @@ public final class FreeMarker implements TebEngine {
     }
 
     public static void main(String args[]) throws Exception {
-        String source="UTF-8", target = "UTF-8";
+        String source = "UTF-8", target = "UTF-8";
         Writer writer = new OutputStreamWriter(System.out, target);
         Map data = new HashMap();
         data.put("target", target);

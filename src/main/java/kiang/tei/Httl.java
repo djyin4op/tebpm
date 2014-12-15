@@ -4,6 +4,7 @@ import httl.Engine;
 import kiang.teb.TebEngine;
 import kiang.teb.TebModel;
 
+import java.io.File;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.util.HashMap;
@@ -27,18 +28,29 @@ public final class Httl implements TebEngine {
         ps.setProperty("logger", "null");
         ps.setProperty("input.encoding", properties.getProperty("source", "UTF-8"));
         ps.setProperty("output.encoding", properties.getProperty("target", "UTF-8"));
+        ps.setProperty("template.suffix", "tpl");
+        boolean debug = Boolean.valueOf(properties.getProperty("debug"));
+        if (debug) {
+            ps.setProperty("loaders", "httl.spi.loaders.ClasspathLoader,httl.spi.loaders.JarLoader");
+            ps.setProperty("template.directory", "kiang/tpl/");
+        } else {
+            ps.setProperty("loaders", "httl.spi.loaders.FileLoader");
+            ps.setProperty("template.directory", new File("kiang/tpl/").getAbsolutePath());
+        }
         engine = Engine.getEngine(ps);
         return this;
     }
 
     @Override
     public void test(Map arguments, Writer writer) throws Exception {
-        engine.getTemplate("kiang/tpl/httl.tpl").render(arguments, writer);
+        engine.getTemplate("/httl.tpl").render(arguments, writer);
+
     }
 
     @Override
     public void test(Map arguments, OutputStream output) throws Exception {
-        engine.getTemplate("kiang/tpl/httl.tpl").render(arguments, output);
+        engine.getTemplate("/httl.tpl").render(arguments, output);
+
     }
 
     @Override
@@ -51,7 +63,7 @@ public final class Httl implements TebEngine {
     }
 
     public static void main(String args[]) throws Exception {
-        String source="UTF-8", target = "UTF-8";
+        String source = "UTF-8", target = "UTF-8";
         OutputStream output = System.out;
         Map data = new HashMap();
         data.put("target", target);
