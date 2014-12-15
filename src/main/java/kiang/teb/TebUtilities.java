@@ -81,7 +81,14 @@ public final class TebUtilities {
     public static Properties getProperties() throws Exception {
         // configurations
         Properties properties = new Properties();
-        URL psUrl = new File("teb.properties").toURI().toURL();
+        URL psUrl;
+        File teb = new File("teb.properties");
+        if (teb.canRead()) {
+            psUrl = new File("teb.properties").toURI().toURL();
+        } else {
+            psUrl = TebUtilities.class.getResource("/teb.properties");
+        }
+
         getProperties(properties, psUrl.openStream());
         String psPath = psUrl.toString();
         int psPos = psPath.lastIndexOf("!/");

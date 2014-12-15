@@ -15,6 +15,10 @@ import java.util.*;
  */
 public class Benchmark {
     public static void main(String[] args) throws Exception {
+        boolean isolation = true;
+        if (args != null && args.length > 0) {
+            isolation = Boolean.valueOf(args[0]);
+        }
         String date = new SimpleDateFormat("yyy-MM-dd hh:mm:ss").format(new Date());
         Properties properties = TebUtilities.getProperties();
         boolean[] binaries;
@@ -44,7 +48,7 @@ public class Benchmark {
                         rst.delete();
                         // change to common-exec
 
-                        if (!bench(properties, binaries[j], targets[i], engines[k])) {
+                        if (!bench(isolation, properties, binaries[j], targets[i], engines[k])) {
                             System.err.println("Test [" + engines[k] + "=" + name + "]@[" + targets[i] + "]@[" + (binaries[j] ? "byte" : "char") + " stream] is Failed.");
                             continue;
                         }
@@ -111,9 +115,10 @@ public class Benchmark {
 
     static final String argsTemplate = "-classpath \"%s\" %s";
 
-    public static boolean bench(Properties properties, boolean binary, String target, String engine) {
+    private static boolean isolationBench(Properties properties, boolean binary, String target, String engine) {
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream(2048);
         final ByteArrayOutputStream errsStream = new ByteArrayOutputStream(2048);
+
         PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream, errsStream);
         final CommandLine commandLine = new CommandLine(TebUtilities.JDK_HOME + File.separator + "bin/java");
         final String option = properties.getProperty("option");
@@ -150,6 +155,32 @@ public class Benchmark {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean bench(boolean isolation, Properties properties, boolean binary, String target, String engine) {
+        if (isolation) {
+            return isolationBench(properties, binary, target, engine);
+        }
+        String[] args = new String[]{
+                Boolean.toString(binary),
+                properties.getProperty("thread", "1"),
+                properties.getProperty("record", "20"),
+                properties.getProperty("period", "10"),
+                properties.getProperty("warmed", "500"),
+                properties.getProperty("looped", "10000"),
+                properties.getProperty("locate", ""),
+                properties.getProperty("source", "UTF-8"),
+                target,
+                engine,
+                properties.getProperty(engine + ".test")
+        };
+        try {
+            Performer.test(args);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }

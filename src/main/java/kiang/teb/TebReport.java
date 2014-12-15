@@ -187,8 +187,8 @@ public final class TebReport {
         TebUtilities.println(bw, "            <td class=\"legend\" align=\"right\">" + NDF.format(period) + "</td>");
         TebUtilities.println(bw, "            <td class=\"legend\" align=\"right\">" + NDF.format(warmed) + "</td>");
         TebUtilities.println(bw, "            <td class=\"legend\" align=\"right\">" + NDF.format(looped) + "</td>");
-        TebUtilities.println(bw, "            <td class=\"legend\">" + target + "</td>");
-        TebUtilities.println(bw, "            <td class=\"legend\">" + (binary ? "byte" : "char") + "</td>");
+        TebUtilities.println(bw, "            <td class=\"legend\" align=\"right\">" + target + "</td>");
+        TebUtilities.println(bw, "            <td class=\"legend\" align=\"right\">" + (binary ? "byte" : "char") + "</td>");
         TebUtilities.println(bw, "        <tr>");
         TebUtilities.println(bw, "        <tr class=\"odd\">");
         TebUtilities.println(bw, "            <td class=\"legend\" colspan=\"9\"><span style=\"font-weight:600;color:#FF0000;\">Option: </span>" + option + "</td>");

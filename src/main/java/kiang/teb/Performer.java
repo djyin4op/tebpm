@@ -97,6 +97,7 @@ public final class Performer implements Runnable {
                 System.getenv("tester"),
                 System.getenv("simple")
         });
+        System.out.println();
     }
 
     public static void test(String args[]) throws Exception {

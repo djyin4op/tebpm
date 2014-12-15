@@ -6,6 +6,7 @@ import org.beetl.core.Configuration;
 import org.beetl.core.GroupTemplate;
 import org.beetl.core.Template;
 import org.beetl.core.resource.ClasspathResourceLoader;
+import org.beetl.core.resource.FileResourceLoader;
 
 import java.io.OutputStream;
 import java.io.Writer;
@@ -22,7 +23,7 @@ public final class Beetl implements TebEngine {
 
     @Override
     public final TebEngine init(Properties properties) throws Exception {
-        ClasspathResourceLoader loader = new ClasspathResourceLoader();
+        BeetlFixedClassResourceLoader loader = new BeetlFixedClassResourceLoader("/kiang/tpl/");
         Configuration cfg = Configuration.defaultConfiguration();
         cfg.setCharset(properties.getProperty("source", "UTF-8"));
         cfg.setDirectByteOutput(Boolean.parseBoolean(properties.getProperty("binary", "true")));
@@ -34,14 +35,14 @@ public final class Beetl implements TebEngine {
 
     @Override
     public void test(final Map arguments, final Writer writer) throws Exception {
-        final Template template = engine.getTemplate("/kiang/tpl/beetl.tpl");
+        final Template template = engine.getTemplate("beetl.tpl");
         template.binding(arguments);
         template.renderTo(writer);
     }
 
     @Override
     public void test(Map arguments, final OutputStream output) throws Exception {
-        Template template = engine.getTemplate("/kiang/tpl/beetl.tpl");
+        Template template = engine.getTemplate("beetl.tpl");
         template.binding(arguments);
         template.renderTo(output);
     }

@@ -1,26 +1,21 @@
 Template Engine Benchmark POWED BY MAVEN
 ===
 <pre>
-作者决定废弃原EBM测试工具，重新设计了TEB，功能和准确度都较EBM有了提高；
-
-目前网络上的Java模板引擎测试基本上都是非独立JVM测试的，
-这样做后测试的引擎性能会较高，与实际性能相比有较大偏差，
-因此本测试对每个引擎都使用独立JVM测试，保证了各个引擎间环境的公平性；
+原工程 http://git.oschina.net/yinjun622/teb
 </pre>
 
 使用
 ===
-###1.编译
+###1.编译打包
 + 请使用JDK 1.7编译测试, 低于JDK1.7部分引擎可能会不能测试
++ 使用命令 mvn clean install  打包, 在target/kiang.teb-integrated可以找到可执行程序
 + 请不要将Velocity加入并发测试, 会因异常终止, Velocity的共享对象导致并发问题
-
 ###2.修改参数
-+ /target/classes/teb.bat
++ teb.bat 或者 teb.sh
 <pre>
-JAVA_HOME : @set JAVA_HOME=D:\UserWork\JavaSDK\jdk7u55x64 设置JAVA_HOME, 如使用系统环境变量请使用rem注释掉
-Libraries : @set Libraries=D:\UserWork\JavaSpace\discuss\teb\lib 设置运行时需要的类库路径, 必填
+设置JAVA_HOME
 </pre>
-+ /target/classes/teb.properties
++ teb.properties
 <pre>
 thread    : 并发线程数, 最小设置1
 record    : 渲染页面的模型记录数, 最小设置1
@@ -38,13 +33,30 @@ xxx.test  : 引擎测试别名对应的引擎测试实现, xxx=jop/jsp/wet等eng
 </pre>
 
 ###3.运行
++ 开发环境 下执行
+<pre>
+kiang.teb.Benchmark.main()
+</pre>
 + Windows 下执行
 <pre>
-/target/classes/teb.bat
+teb.bat
 </pre>
-+ Linux暂未支持
++ Linux 下执行
+<pre>
+./teb.sh
+</pre>
 
 ###4.结果
++ 打包后运行, 结果报告文件是
+<pre>
+RPT20.html
+</pre>
+
++ 开发环境运行, 结果报告文件
+<pre>
+./target/classes/RPT20.html
+</pre>
+
 + 测试结果信息
 <pre>
 结果采用纯HTML输出, 包含关键参数的作图和全部数据信息
@@ -72,7 +84,8 @@ Stream    : 输出流格式
 软件作者
 ===
 <pre>
-软件作者：kiang
+原软件作者：kiang
+修改者：djyin@gmail.com
 </pre>
 
 特别感谢
@@ -91,10 +104,13 @@ Template Engine Benchmark 依据MIT许可证发布。
 使用结果请包含TEB版权信息, 详细请看捆绑的LICENSE文件。
 </pre>
 
-许可证
+增强
 ===
 修改地方：
   1. 使用Maven接管工程构建，管理
-  2. 使用Common-Exec启动待测JVM，而不是直接使用创建批处理文件的方式， 已适应linux系统调用
-  3. 删除了Wetter相关的部分， 这个应该是作者自己写的一个模版框架， 但是没有开源出来
+  2. 使用Common-Exec启动待测JVM，而不是直接使用创建批处理文件的方式， 适应linux系统
+  3. 删除了Wetter相关的部分， 和jop部分， 这些牵扯到原作者自己写的模版框架， 但是没有开源出来， 找不到源代码
   4. 升级了部分模版的版本
+  5. 加入了Thymeleaf
+  6. 测试加入了两种模式, 一种是启动独立的JVM, 另一种是直接通过函数调用的方式, 方便开发调试.
+  7. 修正了一些问题, 比如beetl读取classpath的资源出错的问题...
