@@ -131,8 +131,6 @@
             <version>2.1.3.RELEASE</version>
         </dependency>
 
-
-
     </dependencies>
 
     <build>
@@ -145,10 +143,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
-
-            <!--
-                启动命令 java  -Xms2G -Xmx2G -Xmn768m -Xss256k -XX:PermSize=128M -XX:MaxPermSize=256M -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection -XX:+UseFastAccessorMethods -XX:+CMSClassUnloadingEnabled -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xloggc:gc.log -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8 -jar server-1.0-SNAPSHOT.jar -config server.properties -logback logback.xml &
-            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -174,9 +168,6 @@
                     <finalName>${project.groupId}.${project.artifactId}</finalName>
                     <descriptors>
                         <descriptor>src/main/assembly/assembly.xml</descriptor>
-                        <!--
-                        <descriptor>src/main/assembly/jsw.xml</descriptor>
-                        -->
                     </descriptors>
                 </configuration>
                 <executions>

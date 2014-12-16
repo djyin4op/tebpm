@@ -33,12 +33,10 @@ public class Thymeleaf implements TebEngine {
         boolean debug = Boolean.valueOf(properties.getProperty("debug"));
         if (debug) {
             templateResolver = new ClassLoaderTemplateResolver();
-            templateResolver.setPrefix("/kiang/tpl/");
         } else {
             templateResolver = new FileTemplateResolver();
-            templateResolver.setPrefix("kiang/tpl/");
         }
-
+        templateResolver.setPrefix("kiang/tpl/");
         templateResolver.setSuffix(".tpl");
         templateResolver.setCharacterEncoding("UTF-8");
         templateResolver.setTemplateMode("XHTML");
